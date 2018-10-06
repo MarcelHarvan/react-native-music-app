@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Card, Text, Button} from 'react-native-elements';
 import { ExpoLinksView } from '@expo/samples';
+import {CardList} from '../components/CardList';
 
 export default class AlbumsScreen extends React.Component {
   static navigationOptions = {
@@ -30,31 +31,6 @@ constructor(){
 
 
 };
-// changeCardName(){
-//   this.setState({
-//     cardName: `I am new card name`
-//   });
-  
-// }
-
-renderAlbums(){
-  const {albums} = this.state;
-  return albums.map((album, index) => {
-    return (
-      <Card
-      title={album.title}
-      image={{uri: album.image}}
-      >
-     
-      <Button
-          icon={{name: 'android'}}
-          backgroundColor='#03A9F4'
-          buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-          title='VIEW NOW' />
-      </Card>
-    )
-  });
-}
 
 
   render() {
@@ -62,7 +38,12 @@ renderAlbums(){
 
     return (
       <ScrollView style={styles.container}>
-       { this.renderAlbums() }
+      <CardList 
+                data={albums}
+                imageKey={'image'} 
+                titleKey={'title'}
+                buttonText="See the details"
+      ></CardList>
 
       </ScrollView>
     );
