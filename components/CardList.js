@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Text } from 'react-native';
+import { View } from 'react-native';
 import { Card, Text, Button} from 'react-native-elements';
 
 export class CardList extends React.Component {
@@ -26,7 +26,18 @@ export class CardList extends React.Component {
 
 
   render() {
-      return this.renderData();
+    const { data } = this.props;
+
+      if (data && data.length > 0) {
+        return this.renderData();
+      } else {
+          return <View>
+              <Text>
+                 Loading Data...
+              </Text>
+          </View>
+      }
+      
     
   }
 }

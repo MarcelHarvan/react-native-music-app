@@ -3,6 +3,9 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { Card, Text, Button} from 'react-native-elements';
 import { ExpoLinksView } from '@expo/samples';
 import {CardList} from '../components/CardList';
+import {SearchText} from '../components/SearchText';
+
+import * as actions from '../actions';
 
 export default class AlbumsScreen extends React.Component {
   static navigationOptions = {
@@ -12,35 +15,29 @@ export default class AlbumsScreen extends React.Component {
 constructor(){
     super();
     this.state = {
-        albums : [
-          {
-          title: 'Meteora',
-          image: 'https://orig00.deviantart.net/4f89/f/2017/203/0/1/meteora_minimalist_album_cover_by_glaze147-dbha2ru.png'
-        },
-        {
-          title: 'Meteora',
-          image: 'https://orig00.deviantart.net/4f89/f/2017/203/0/1/meteora_minimalist_album_cover_by_glaze147-dbha2ru.png'
-        },
-        {
-          title: 'Meteora',
-          image: 'https://orig00.deviantart.net/4f89/f/2017/203/0/1/meteora_minimalist_album_cover_by_glaze147-dbha2ru.png'
-        }
-       ]
+        albums : null
     }
   
 
+    actions.searchTracks('eminem').then(albums => this.setState({albums}));
 
+    // actions.searchTracks('eminem').then(
+    //   albums =>{
+    //     console.log(albums)
+    //   }
+    // );
 };
 
 
   render() {
-    const {albums} = this.state;
+    const { albums } = this.state;
 
     return (
       <ScrollView style={styles.container}>
+      <SearchText></SearchText>
       <CardList 
                 data={albums}
-                imageKey={'image'} 
+                imageKey={'cover_big'} 
                 titleKey={'title'}
                 buttonText="See the details"
       ></CardList>
