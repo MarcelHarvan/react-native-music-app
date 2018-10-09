@@ -15,11 +15,12 @@ export default class AlbumsScreen extends React.Component {
 constructor(){
     super();
     this.state = {
-        albums : null
+        albums : [],
+        isFetching: false
     }
   
 
-    actions.searchTracks('eminem').then(albums => this.setState({albums}));
+    this.searchTracks = this.searchTracks.bind(this);
 
     // actions.searchTracks('eminem').then(
     //   albums =>{
@@ -28,22 +29,43 @@ constructor(){
     // );
 };
 
+searchTracks(artist) {
+  this.setState({isFetching: true});
 
-  render() {
-    const { albums } = this.state;
+  actions.searchTracks(artist)
+  .then(albums => this.setState({albums, isFetching: false}))
+  .catch(err => this.setState({albums:[], isFetching: false}));
+}
 
-    return (
-      <ScrollView style={styles.container}>
-      <SearchText></SearchText>
+renderAlbumView(){
+  const { albums, isFetching  } = this.state;
+
+  return (
+    <ScrollView style={styles.container}>
+    <SearchText submitSearch={this.searchTracks}></SearchText>
+
+    { albums.length > 0 && !isFetching &&
       <CardList 
                 data={albums}
                 imageKey={'cover_big'} 
                 titleKey={'title'}
                 buttonText="See the details"
       ></CardList>
+    }
+    {
+      albums.length === 0 && isFetching &&
+      <Text>Loading Albums...</Text>
 
-      </ScrollView>
-    );
+    }
+
+    </ScrollView>
+  );
+
+}
+
+  render() {
+    return this.renderAlbumView();
+   
   }
 }
 
